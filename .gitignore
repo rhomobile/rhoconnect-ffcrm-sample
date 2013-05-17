@@ -2,3 +2,4 @@ rholog-*
 sim-*
 bin/
 *.jar
+*.log

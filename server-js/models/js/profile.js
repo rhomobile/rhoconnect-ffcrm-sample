@@ -1,4 +1,5 @@
 var rc = require('rhoconnect_helpers');
+var settings = require('../../libs/settings');
 
 var Profile = function(){
 
