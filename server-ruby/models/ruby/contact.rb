@@ -16,7 +16,6 @@ class Contact < Rhoconnect::Model::Base
   def query(params=nil)
     # Get cookies for current user
     cookies(current_user.login)
-    # puts @cookies
 
     rest_result = RestClient.get("#{@base}.json", {:cookies => @cookies}).body
     if rest_result.code != 200
@@ -71,7 +70,6 @@ class Contact < Rhoconnect::Model::Base
   def delete(delete_hash)
     # Get cookies for current user
     cookies(current_user.login)
-    puts @cookies
 
     RestClient.delete("#{@base}/#{delete_hash['id']}", {:cookies => @cookies})
     # TODO: write some code here if applicable
