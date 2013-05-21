@@ -2,6 +2,8 @@
 :sources:
   Profile:
     :poll_interval: 300
+  Contact:
+    :poll_interval: 300
 
 :development:
   :licensefile: settings/license.key

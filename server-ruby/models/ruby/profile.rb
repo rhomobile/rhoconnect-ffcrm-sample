@@ -1,7 +1,11 @@
+require_relative "helper"
+
 class Profile < Rhoconnect::Model::Base
+  include Helper
+
   def initialize(source)
     @base =  "http://rho-fat-free.herokuapp.com"
-
+    # @base =  "http://localhost:3000"
     super(source)
   end
 
@@ -10,12 +14,10 @@ class Profile < Rhoconnect::Model::Base
   end
 
   def query(params=nil)
-    cookies = {}
-    cookies['user_credentials'] = Store.get_value("user:#{current_user.login}:user_credentials")
-    cookies['_session_id'] = Store.get_value("user:#{current_user.login}:_session_id")
-    # puts "cookies: #{cookies}"
+    # Get cookies for current user
+    cookies(current_user.login)
 
-    rest_result = RestClient.get("#{@base}/profile.json", {:cookies => cookies}).body
+    rest_result = RestClient.get("#{@base}/profile.json", {:cookies => @cookies}).body
     if rest_result.code != 200
       raise Rhoconnect::Model::Exception.new("Error connecting to fat_free_crm server!")
     end
@@ -40,14 +42,12 @@ class Profile < Rhoconnect::Model::Base
   end
 
   def update(update_hash)
-    cookies = {}
-    cookies['user_credentials'] = Store.get_value("user:#{current_user.login}:user_credentials")
-    cookies['_session_id'] = Store.get_value("user:#{current_user.login}:_session_id")
-    # puts "cookies: #{cookies}"
+    # Get cookies for current user
+    cookies(current_user.login)
 
     obj_id = update_hash['id']
     update_hash.delete('id')
-    rest_result = RestClient.put("#{@base}/users/#{obj_id}", { :user => update_hash }, { :cookies => cookies })
+    rest_result = RestClient.put("#{@base}/users/#{obj_id}", { :user => update_hash }, { :cookies => @cookies })
     puts rest_result.code # => 204
   end
 
