@@ -36,7 +36,7 @@ class Opportunity < Rhoconnect::Model::Base
 
     #TODO: Handle properly account for a new opportunity record (now is nil)
     res = RestClient.post(@base,
-      {:contact => create_hash, :account => { :id => "", :name => ""}}, {:cookies => @cookies})
+      {:opportunity => create_hash, :account => { :id => "", :name => ""}}, {:cookies => @cookies})
     # After create we are redirected to the new record.
     # We need to get the id of that record and return it as part of create so rhoconnect can establish a link
     # from its temporary object on the client to this newly created object on the server
@@ -57,7 +57,7 @@ class Opportunity < Rhoconnect::Model::Base
   def delete(delete_hash)
     # Get cookies for current user
     cookies(current_user.login)
-
+    RestClient.delete("#{@base}/#{delete_hash['id']}", {:cookies => @cookies})
   end
 
   def logoff
