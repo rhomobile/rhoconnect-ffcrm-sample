@@ -41,7 +41,7 @@ class Contact < Rhoconnect::Model::Base
     # Get cookies for current user
     cookies(current_user.login)
 
-    #TODO: Handle properly account for creaed contact (now is nil)
+    #TODO: Handle properly account for new contact (now is nil)
     res = RestClient.post(@base,
       {:contact => create_hash, :account => { :id => "", :name => ""}}, {:cookies => @cookies})
     # After create we are redirected to the new record.
@@ -59,7 +59,7 @@ class Contact < Rhoconnect::Model::Base
 
     obj_id = update_hash['id']
     update_hash.delete('id')
-    # TODO: get/set properly account for this contact (now is nil)
+    # TODO: get/set properly account for updated contact (now is nil)
     RestClient.put("#{@base}/#{obj_id}",
       {:contact => update_hash, :account => { :id => "", :name => ""}}, {:cookies => @cookies})
 
